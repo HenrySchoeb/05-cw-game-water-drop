@@ -8,14 +8,19 @@
 </head>
 <body>
     <div class="game-wrapper">
+        <div class="cw-logo">
+            <img src="img/water-can.png" alt="Charity: Water Jerry Can Logo" />
+        </div>
         <h1 class="game-title">Water Drop</h1>
         <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
         <div class="score-panel">
             <div class="score">Score: <span id="score">0</span></div>
-            <div class="timer">Time: <span id="time">30</span>s</div>
+            <div class="timer-group">
+                <div class="timer">Time: <span id="time">30</span>s</div>
+                <button id="restart-btn">Restart</button>
+            </div>
             <button id="start-btn">Start Game</button>
         </div>
-        
         <div id="game-container">
         </div>
     </div>

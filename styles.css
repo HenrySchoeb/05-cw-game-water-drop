@@ -15,6 +15,36 @@ Secondary Colors:
 Fonts:
 - Proxima Nova
 - Avenir
+*/
+/* Charity: Water Jerry Can Logo styling */
+.cw-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.cw-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+/* Charity: water Brand Colors & Fonts
+
+Primary Colors:
+- Yellow:     #FFC907
+- Blue:       #2E9DF7
+
+Secondary Colors:
+- Light Blue: #8BD1CB
+- Green:      #4FCB53
+- Orange:     #FF902A
+- Red:        #F5402C
+- Dark Green: #159A48
+- Pink:       #F16061
+
+Fonts:
+- Proxima Nova
+- Avenir
 
 */
 
@@ -29,8 +59,12 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+    background-color: #23201F; /* Charity: Water dark grey */
+    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
+    /* Squiggly yellow SVG background pattern */
+    background-image: url('data:image/svg+xml;utf8,<svg width="120" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 20 Q 30 0 60 20 T 120 20" stroke="%23FFC907" stroke-width="4" fill="none"/></svg>');
+    background-repeat: repeat;
+    background-size: 120px 40px;
 }
 
 .game-wrapper {
@@ -38,91 +72,128 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    background: #58564f; /* Pantone 7401 */
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(46, 61, 83, 0.08);
+    padding: 32px 0;
 }
 
 .score-panel {
     display: flex;
-    justify-content: space-between;  /* Space between score and button */
+    justify-content: space-between;
     align-items: center;
     width: 800px;
-    padding: 10px;
-    background-color: #fff;
+    padding: 16px;
+    background-color: #FFC907; /* Pantone 123, yellow */
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(46, 61, 83, 0.10);
+}
+
+.timer-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#restart-btn {
+    margin-top: 8px;
+    padding: 10px 24px;
+    background-color: #003366; /* Pantone 540, dark blue */
+    color: #FFC907; /* Pantone 123, yellow */
+    border: none;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
+    text-align: center;
+}
+
+#restart-btn:hover {
+    background-color: #2E9DF7; /* Pantone 299, charity: water blue */
+    color: #fff;
 }
 
 .timer {
     flex: 0 1 auto;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
+    color: #003366; /* Pantone 540 */
 }
 
 #game-container {
     width: 800px;
     height: 600px;
-    background-color: #e6f7ff;
-    border: 2px solid #333;
-    border-radius: 8px;
+    background-color: #c7f1f7; /* Charity: Water dark grey */
+    border: 2px solid #FFC907; /* Pantone 123, yellow */
+    border-radius: 16px;
     position: relative;
     overflow: hidden;
 }
 
 
 #start-btn {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
+    padding: 10px 24px;
+    background-color: #003366; /* Pantone 540, dark blue */
+    color: #FFC907; /* Pantone 123, yellow */
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
 }
 
 #start-btn:hover {
-    background-color: #45a049;
+    background-color: #2E9DF7; /* Pantone 299, charity: water blue */
+    color: #fff;
 }
 
 .score {
-    flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
-    font-size: 24px;
+    flex: 0 1 auto;
+    font-size: 28px;
     font-weight: bold;
+    color: #003366; /* Pantone 540, dark blue */
 }
 
 .water-drop {
     position: absolute;
-    width: 60px;  /* increased from 40px */
-    height: 60px; /* increased from 40px */
-    background-color: #0099ff;
+    width: 60px;
+    height: 60px;
+    background-color: #2E9DF7; /* Pantone 299, charity: water blue */
     border-radius: 50%;
     animation: dropFall linear forwards;
     transform-origin: center;
     cursor: pointer;
-    padding: 15px;  /* Add padding for larger click area */
-    margin: -15px;  /* Offset padding to maintain visual size */
-    transition: transform 0.1s ease;  /* Smooth hover effect */
+    padding: 0;
+    margin: 0;
+    transition: transform 0.1s ease;
+}
+
+.dirty-drop {
+    background-color: #F5402C; /* Charity: Water Red */
+    border-radius: 50%;
 }
 
 .water-drop:hover {
     transform: scale(1.1);  /* Slight grow effect on hover */
 }
 
-.bad-drop {
-    background-color: #ff4444;
-}
 
 .game-title {
-    color: #131313;
-    font-size: 48px;
+    color: #003366; /* Pantone 540, dark blue */
+    font-size: 54px;
     margin-top: 0;
-    margin-bottom: 5px;  /* reduced from 20px */
+    margin-bottom: 5px;
     text-align: center;
+    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
 }
 
 .game-tagline {
-    color: #666;
-    font-size: 18px;
+    color: #8BD1CB; /* Pantone 550, light blue */
+    font-size: 22px;
     margin-bottom: 20px;
     text-align: center;
+    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
 }
 
 @keyframes dropFall {
