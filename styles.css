@@ -60,7 +60,7 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #23201F; /* Charity: Water dark grey */
-    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     /* Squiggly yellow SVG background pattern */
     background-image: url('data:image/svg+xml;utf8,<svg width="120" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 20 Q 30 0 60 20 T 120 20" stroke="%23FFC907" stroke-width="4" fill="none"/></svg>');
     background-repeat: repeat;
@@ -105,13 +105,38 @@ body {
     border-radius: 8px;
     cursor: pointer;
     font-size: 18px;
-    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     text-align: center;
 }
 
 #restart-btn:hover {
     background-color: #2E9DF7; /* Pantone 299, charity: water blue */
     color: #fff;
+}
+
+.difficulty-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.difficulty-group label {
+    color: #003366;
+    font-weight: bold;
+}
+
+#difficulty {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    background: #fff;
+    color: #003366;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+select, button, input, textarea {
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .timer {
@@ -140,7 +165,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     font-size: 18px;
-    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 #start-btn:hover {
@@ -185,7 +210,7 @@ body {
     margin-top: 0;
     margin-bottom: 5px;
     text-align: center;
-    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .game-tagline {
@@ -193,7 +218,7 @@ body {
     font-size: 22px;
     margin-bottom: 20px;
     text-align: center;
-    font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 @keyframes dropFall {

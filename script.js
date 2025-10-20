@@ -20,6 +20,62 @@ const losingMessages = [
 ];
 let score = 0; // Track the player's score
 
+// Difficulty settings (spawn interval in ms, fallDuration string, dirty drop probability, timeLimit seconds)
+const difficultySettings = {
+  easy: { spawnInterval: 700, fallDuration: '4.5s', dirtyProb: 0.2, timeLimit: 30 },
+  medium: { spawnInterval: 500, fallDuration: '4s', dirtyProb: 0.4, timeLimit: 25 },
+  hard: { spawnInterval: 300, fallDuration: '3s', dirtyProb: 0.6, timeLimit: 20 }
+};
+
+let currentSettings = difficultySettings.medium;
+
+// Simple WebAudio sound effects (no external files)
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function ensureAudioCtx() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+}
+
+function playGoodSound() {
+  try {
+    ensureAudioCtx();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(880, audioCtx.currentTime);
+    g.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    g.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.01);
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    o.start();
+    o.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.25);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    setTimeout(() => { o.stop(); }, 600);
+  } catch (e) {
+    // ignore if audio not allowed
+  }
+}
+
+function playBadSound() {
+  try {
+    ensureAudioCtx();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(220, audioCtx.currentTime);
+    g.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    g.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.01);
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    o.start();
+    o.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.35);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+    setTimeout(() => { o.stop(); }, 800);
+  } catch (e) {
+    // ignore
+  }
+}
+
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
 document.getElementById("restart-btn").addEventListener("click", function() {
@@ -34,7 +90,11 @@ document.getElementById("restart-btn").addEventListener("click", function() {
   // Reset score and timer display
   score = 0;
   updateScore();
-  timeLeft = 30;
+  // Reset timeLeft based on selected difficulty
+  const diffSelect = document.getElementById('difficulty');
+  const diffValue = diffSelect ? diffSelect.value : 'medium';
+  const resetSettings = difficultySettings[diffValue] || difficultySettings.medium;
+  timeLeft = resetSettings.timeLimit;
   updateTime();
 });
 
@@ -47,7 +107,11 @@ function startGame() {
   score = 0;
   updateScore();
 
-  timeLeft = 30;
+  // Read difficulty selection and apply settings, then set timeLeft accordingly
+  const diffSelect = document.getElementById('difficulty');
+  const diffValue = diffSelect ? diffSelect.value : 'medium';
+  currentSettings = difficultySettings[diffValue] || difficultySettings.medium;
+  timeLeft = currentSettings.timeLimit;
   updateTime();
 
   // Start the countdown timer
@@ -59,15 +123,15 @@ function startGame() {
     }
   }, 1000);
 
-  // Create new drops every 0.5 seconds (500 milliseconds)
-  dropMaker = setInterval(createDrop, 500);
+  // Create new drops using difficulty spawn interval
+  dropMaker = setInterval(createDrop, currentSettings.spawnInterval);
 }
 
 function createDrop() {
-  // Randomly decide drop type: 40% chance dirty, else blue
+  // Randomly decide drop type based on difficulty dirty probability
   const rand = Math.random();
   let dropType = "water-drop";
-  if (rand < 0.4) {
+  if (rand < currentSettings.dirtyProb) {
     dropType = "water-drop dirty-drop";
   }
 
@@ -87,8 +151,8 @@ function createDrop() {
   const xPosition = Math.random() * (gameWidth - 60);
   drop.style.left = xPosition + "px";
 
-  // Make drops fall for 4 seconds
-  drop.style.animationDuration = "4s";
+  // Make drops fall using difficulty fall duration
+  drop.style.animationDuration = currentSettings.fallDuration;
 
   // Add the new drop to the game screen
   document.getElementById("game-container").appendChild(drop);
@@ -101,10 +165,14 @@ function createDrop() {
   // Add click event for drops
   drop.addEventListener("click", function() {
     if (drop.classList.contains("dirty-drop")) {
+      // negative sound
+      playBadSound();
       score = Math.max(0, score - 1);
       updateScore();
       drop.remove();
     } else {
+      // positive water plop
+      playGoodSound();
       score++;
       updateScore();
       drop.remove();
